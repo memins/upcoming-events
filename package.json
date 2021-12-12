@@ -5,9 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "watch": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Emin Sahin",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "nodemon": "^2.0.15"
+  }
 }
