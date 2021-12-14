@@ -1,6 +1,6 @@
 const colors = require("colors");
-const User = require("./user");
-const Event = require("./event");
+const User = require("./models/user");
+const Event = require("./models/event");
 const userDatabase = require("./database/user-database");
 
 const emin = User.create({ name: "Emin", email: "mes@gmail.com" });
