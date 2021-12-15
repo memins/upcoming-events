@@ -20,25 +20,33 @@ function printEvent(event) {
 }
 
 function printEventHistory(user) {
-  console.log(user);
   if (user.events.length === 0)
     return console.log(`${colors.blue(user.name)} has no events yet!`);
 
   user.events.forEach(printEvent);
 }
 
-// userDatabase.save([emin, hanne]);
+(async () => {
+  try {
+    await userDatabase.save([emin, hanne]);
 
-// const meryem = User.create({ name: "meryem", email: "ms@mail.com" });
-// meryem.addEvent("event1222", "2020-01-01", "description");
+    const meryem = User.create({ name: "meryem", email: "ms@mail.com" });
 
-// userDatabase.insert(meryem);
+    await userDatabase.insert(meryem);
 
-const emin2 = userDatabase.findByName("Emin");
+    const users = await userDatabase.load();
+
+    users.forEach(printEventHistory);
+  } catch (e) {
+    return console.log(e);
+  }
+})();
+
+// const emin2 = userDatabase.findByName("Emin");
 
 // emin2.addEvent("neu-event", "2022-11-09", "local desc.");
-userDatabase.update(emin2);
+// userDatabase.update(emin2);
 
-printEventHistory(hanne);
+// printEventHistory(hanne);
 
 // console.log(userDatabase.findBy("mail", "mes@gmail.com"));

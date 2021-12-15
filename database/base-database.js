@@ -8,34 +8,47 @@ class BaseDatabase {
   }
 
   save(objects) {
-    fs.writeFileSync(
-      `${__dirname}/${this.filename}.json`,
-      flatted.stringify(objects, null, 2)
-    );
+    return new Promise((resolve, reject) => {
+      fs.writeFile(
+        `${__dirname}/${this.filename}.json`,
+        flatted.stringify(objects, null, 2),
+        (err) => {
+          if (err) return reject(err);
+          resolve();
+        }
+      );
+    });
   }
 
   load() {
-    const file = fs.readFileSync(`${__dirname}/${this.filename}.json`, "utf8");
-    const objects = flatted.parse(file);
-
-    return objects.map(this.model.create);
+    return new Promise((resolve, reject) => {
+      fs.readFile(
+        `${__dirname}/${this.filename}.json`,
+        "utf-8",
+        (err, data) => {
+          if (err) return reject(err);
+          const objects = flatted.parse(data);
+          resolve(objects.map(this.model.create));
+        }
+      );
+    });
   }
 
-  insert(object) {
-    const objects = this.load();
+  async insert(object) {
+    const objects = await this.load();
 
     this.save(objects.concat(object));
   }
 
-  remove(index) {
-    const objects = this.load();
+  async remove(index) {
+    const objects = await this.load();
 
     objects.splice(index, 1);
     this.save(objects);
   }
 
-  update(object) {
-    const objects = this.load();
+  async update(object) {
+    const objects = await this.load();
 
     const index = objects.findIndex((o) => o.id == object.id);
 
@@ -48,12 +61,12 @@ class BaseDatabase {
     this.save(objects);
   }
 
-  find(id) {
-    return this.load().find((o) => o.id == id);
+  async find(id) {
+    return (await this.load()).find((o) => o.id == id);
   }
 
-  findBy(property, value) {
-    return this.load().find((o) => o[property] == value);
+  async findBy(property, value) {
+    return (await this.load()).find((o) => o[property] == value);
   }
 }
 

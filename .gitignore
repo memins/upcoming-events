@@ -1,6 +1,5 @@
 .next
 .idea
-.vscode
 node_modules
 public/ui
 public/sw*
