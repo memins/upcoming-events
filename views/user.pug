@@ -1,0 +1,13 @@
+extends layout
+block content
+
+        h2 User Detail
+        p #{user.name}
+
+        h3 Event History
+        if user.events.length
+            ol
+                each event in user.events
+                    li  #{event.title} on #{event.date} 
+        else 
+            p No events
