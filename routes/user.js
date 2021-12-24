@@ -14,9 +14,7 @@ router.post("/", async (req, res) => {
 });
 
 router.delete("/:userId", async (req, res) => {
-  await userDatabase.removeBy("id", req.params.userId);
-
-  res.send("OK");
+  await userDatabase.removeBy("_id", req.params.userId);
 });
 
 router.get("/:userId", async (req, res) => {
@@ -35,8 +33,13 @@ router.post("/:userId/events", async (req, res) => {
   user.addEvent(title, date);
 
   await userDatabase.update(user);
+});
 
-  res.send("OK");
+router.patch("/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const { name } = req.body;
+
+  await userDatabase.update(userId, { name });
 });
 
 module.exports = router;
