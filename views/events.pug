@@ -1,0 +1,16 @@
+extends layout
+block content
+
+        h2 Events
+        p There are #{events.length} events.
+
+        
+        ol
+            each event in events
+                li  
+                    p User:
+                        a(href=`/users/${event.user.id}`) #{event.user.name}
+
+                    p Event: #{event.title}
+                    p Date: #{event.date}
+                    p Description: #{event.description}

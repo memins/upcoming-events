@@ -1,10 +1,16 @@
-class Event {
-  constructor(title, user, date, description) {
-    this.title = title;
-    this.user = user;
-    this.date = date;
-    this.description = description;
-  }
-}
+const mongoose = require("mongoose");
 
-module.exports = Event;
+const EventSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    autopopulate: { maxDepth: 1 },
+  },
+  title: String,
+  date: Date,
+  description: String,
+});
+
+EventSchema.plugin(require("mongoose-autopopulate"));
+
+module.exports = mongoose.model("Event", EventSchema);

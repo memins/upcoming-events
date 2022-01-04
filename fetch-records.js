@@ -1,7 +1,7 @@
 const colors = require("colors");
 const User = require("./models/user");
 const Event = require("./models/event");
-const userDatabase = require("./database/user-database");
+const userService = require("./services/user-service");
 
 const emin = User.create({ name: "Emin", email: "mes@gmail.com" });
 const hanne = User.create({ name: "hanne", email: "h@mail.com" });
@@ -28,13 +28,13 @@ function printEventHistory(user) {
 
 (async () => {
   try {
-    await userDatabase.save([emin, hanne]);
+    await userService.save([emin, hanne]);
 
     const meryem = User.create({ name: "meryem", email: "ms@mail.com" });
 
-    await userDatabase.insert(meryem);
+    await userService.insert(meryem);
 
-    const users = await userDatabase.load();
+    const users = await userService.load();
 
     users.forEach(printEventHistory);
   } catch (e) {
