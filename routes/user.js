@@ -4,9 +4,7 @@ const router = require("express").Router();
 const eventService = require("../services/event-service");
 
 router.get("/", async (req, res) => {
-  const users = await userService.load();
-
-  res.render("users", { users });
+  res.send(await userService.load())
 });
 
 router.post("/", async (req, res) => {
@@ -20,9 +18,9 @@ router.delete("/:userId", async (req, res) => {
 
 router.get("/:userId", async (req, res) => {
   const user = await userService.find(req.params.userId);
-  if (!user) return res.status(404).send("User not found");
 
-  res.render("user", { user });
+  if (!user) return res.status(404)
+  res.send(user)
 });
 
 router.post("/:userId/events", async (req, res) => {
